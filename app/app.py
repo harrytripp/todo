@@ -2,20 +2,12 @@ from flask import Flask, request, g
 from markupsafe import escape
 import sqlite3
 
-# example using escape to protect against injection attacks when returning html
-#@app.route("/<name>")
-#def hello(name):
-#    return f"Hello, {escape(name)}!"
-
+# Create instance
 app = Flask(__name__)
 
-if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=8000)
-       
 DATABASE = 'app/database.db'
 
-@app.route('/', methods=['GET', 'POST'])
-
+# Database helper functions
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -28,6 +20,13 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+def createTable():
+    db = get_db()
+    db.execute("CREATE TABLE IF NOT EXISTS example (id INTEGER, name TEXT, info TEXT)")
+    db.commit()
+
+# Route handlers
+@app.route('/', methods=['GET', 'POST'])
 def todoList():
     if request.method == 'POST':
         return addTask()
@@ -35,11 +34,17 @@ def todoList():
         return showTasks()
 
 def addTask():
-		return "Task added!"
+    return "Task added!"
 
 def showTasks():
-		return "List of tasks"
+    return "List of tasks"
 
-def createTable():
-    get_db()
-    db.execute("CREATE TABLE IF NOT EXISTS example (id INTEGER, name TEXT, info TEXT)")
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8000)
+
+
+# Example of using escape to protect against injection attacks when returning html
+""" @app.route("/<name>")
+def hello(name):
+    return f"Hello, {escape(name)}!" """
