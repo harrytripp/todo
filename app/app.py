@@ -1,4 +1,4 @@
-from flask import Flask, request, g
+from flask import Flask, request, g, render_template
 from markupsafe import escape
 import sqlite3
 
@@ -27,6 +27,9 @@ def createTable():
 
 # Route handlers
 @app.route('/', methods=['GET', 'POST'])
+def index():
+    return render_template('index.html')
+
 def todoList():
     if request.method == 'POST':
         return addTask()
