@@ -1,13 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TODO</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
 <form action="http://localhost:8000" method="post">
     <p>
       <label for="name">Task:</label>
-      <input type="text" id="name" name="task_name" />
+      <input type="text" id="name" name="task_name" required/>
     </p>
     <p>
       <label for="info">Task Information:</label>
-      <textarea id="info" name="task_info"></textarea>
+      <textarea id="info" name="task_info" maxlength="500"></textarea>
     </p>
     <p class="button">
         <button type="submit">Add Task</button>
     </p>      
-</form>  
+</form>
+</html>
